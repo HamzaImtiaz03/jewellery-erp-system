@@ -1,0 +1,675 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   TOKEN-DRIVEN DESIGN SYSTEM  (SRS Appendix L.1)
+   ----------------------------------------------------------------------------
+   Every visual value resolves from a CSS variable owned by the active theme.
+   Themes are applied via  <html data-theme="..." data-density="...">.
+   Switching the theme swaps token values and the whole UI re-skins (UI-F07).
+   Color tokens are stored as raw HSL channels so Tailwind can apply alpha.
+   ========================================================================== */
+
+:root {
+  /* Default theme: ROYAL — deep navy + amber (SRS L.1.2 example palette) */
+  --background: 214 32% 95%;
+  --foreground: 222 47% 11%;
+
+  --surface: 0 0% 100%;
+  --surface-foreground: 222 47% 11%;
+  --surface-muted: 214 30% 97%;
+
+  --muted: 214 24% 92%;
+  --muted-foreground: 215 16% 42%;
+
+  --border: 214 22% 86%;
+  --input: 214 22% 84%;
+  --ring: 218 53% 32%;
+
+  --primary: 218 53% 26%;
+  --primary-foreground: 0 0% 100%;
+  --primary-muted: 218 48% 92%;
+
+  --secondary: 215 25% 27%;
+  --secondary-foreground: 0 0% 100%;
+
+  --accent: 24 84% 42%;
+  --accent-foreground: 0 0% 100%;
+  --accent-muted: 26 90% 94%;
+
+  --success: 152 56% 32%;
+  --success-foreground: 0 0% 100%;
+  --success-muted: 152 50% 92%;
+
+  --warning: 36 92% 44%;
+  --warning-foreground: 36 60% 12%;
+  --warning-muted: 40 92% 92%;
+
+  --danger: 352 78% 42%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 80% 95%;
+
+  --info: 206 78% 42%;
+  --info-foreground: 0 0% 100%;
+  --info-muted: 206 80% 94%;
+
+  /* Sidebar gets its own ramp — classic enterprise dark navy rail */
+  --sidebar: 220 44% 13%;
+  --sidebar-foreground: 214 30% 84%;
+  --sidebar-muted: 215 20% 60%;
+  --sidebar-border: 218 38% 20%;
+  --sidebar-active: 24 84% 50%;
+  --sidebar-active-bg: 218 50% 22%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 215 22% 52%;
+
+  --shadow-color: 220 45% 28%;
+  --radius: 1rem;
+
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Categorical hues — colourful but soft. Used for module accents, KPI cards,
+     charts and badges. Light values here; brightened for dark themes below. */
+  --c-blue: 214 88% 52%;
+  --c-indigo: 243 74% 60%;
+  --c-violet: 270 68% 60%;
+  --c-purple: 286 62% 56%;
+  --c-pink: 330 76% 60%;
+  --c-rose: 346 78% 58%;
+  --c-orange: 24 88% 54%;
+  --c-amber: 36 90% 50%;
+  --c-lime: 96 56% 44%;
+  --c-emerald: 158 66% 40%;
+  --c-teal: 176 66% 40%;
+  --c-cyan: 194 82% 44%;
+  --c-slate: 215 28% 52%;
+}
+
+/* Categorical hues — brighter on dark surfaces for contrast on glass. */
+[data-theme$="-dark"],
+[data-theme="contrast-dark"] {
+  --c-blue: 214 90% 66%;
+  --c-indigo: 243 84% 73%;
+  --c-violet: 270 80% 73%;
+  --c-purple: 286 72% 70%;
+  --c-pink: 330 84% 71%;
+  --c-rose: 346 86% 69%;
+  --c-orange: 26 90% 63%;
+  --c-amber: 40 92% 61%;
+  --c-lime: 96 58% 57%;
+  --c-emerald: 158 58% 53%;
+  --c-teal: 176 60% 53%;
+  --c-cyan: 194 82% 59%;
+  --c-slate: 215 26% 65%;
+}
+
+/* ---- ROYAL DARK ------------------------------------------------------------ */
+[data-theme="royal-dark"] {
+  --background: 222 40% 8%;
+  --foreground: 213 31% 91%;
+  --surface: 222 38% 11%;
+  --surface-foreground: 213 31% 91%;
+  --surface-muted: 222 34% 14%;
+  --muted: 222 30% 17%;
+  --muted-foreground: 216 18% 62%;
+  --border: 222 26% 20%;
+  --input: 222 26% 22%;
+  --ring: 24 84% 52%;
+  --primary: 213 70% 60%;
+  --primary-foreground: 222 47% 11%;
+  --primary-muted: 218 40% 20%;
+  --secondary: 215 20% 30%;
+  --secondary-foreground: 213 31% 91%;
+  --accent: 26 90% 56%;
+  --accent-foreground: 222 47% 11%;
+  --accent-muted: 24 50% 22%;
+  --success: 152 52% 46%;
+  --success-foreground: 222 47% 11%;
+  --success-muted: 152 40% 18%;
+  --warning: 38 92% 56%;
+  --warning-foreground: 36 60% 12%;
+  --warning-muted: 38 50% 20%;
+  --danger: 352 70% 58%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 40% 22%;
+  --info: 206 78% 58%;
+  --info-foreground: 222 47% 11%;
+  --info-muted: 206 40% 20%;
+  --sidebar: 222 42% 6%;
+  --sidebar-foreground: 213 24% 80%;
+  --sidebar-muted: 215 16% 56%;
+  --sidebar-border: 222 30% 15%;
+  --sidebar-active: 26 90% 56%;
+  --sidebar-active-bg: 218 44% 18%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 215 16% 48%;
+  --shadow-color: 0 0% 0%;
+}
+
+/* ---- GRAPHITE (neutral slate, light) -------------------------------------- */
+[data-theme="graphite"] {
+  --background: 220 16% 94%;
+  --foreground: 222 24% 14%;
+  --surface: 0 0% 100%;
+  --surface-foreground: 222 24% 14%;
+  --surface-muted: 220 16% 97%;
+  --muted: 220 14% 91%;
+  --muted-foreground: 220 9% 44%;
+  --border: 220 13% 85%;
+  --input: 220 13% 83%;
+  --ring: 222 20% 30%;
+  --primary: 222 24% 20%;
+  --primary-foreground: 0 0% 100%;
+  --primary-muted: 220 16% 90%;
+  --secondary: 220 12% 35%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 199 89% 38%;
+  --accent-foreground: 0 0% 100%;
+  --accent-muted: 199 80% 94%;
+  --success: 152 56% 32%;
+  --success-foreground: 0 0% 100%;
+  --success-muted: 152 50% 92%;
+  --warning: 36 92% 44%;
+  --warning-foreground: 36 60% 12%;
+  --warning-muted: 40 92% 92%;
+  --danger: 352 78% 42%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 80% 95%;
+  --info: 206 78% 42%;
+  --info-foreground: 0 0% 100%;
+  --info-muted: 206 80% 94%;
+  --sidebar: 222 18% 16%;
+  --sidebar-foreground: 220 14% 82%;
+  --sidebar-muted: 220 9% 60%;
+  --sidebar-border: 222 14% 24%;
+  --sidebar-active: 199 89% 48%;
+  --sidebar-active-bg: 222 16% 24%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 220 9% 52%;
+  --shadow-color: 222 24% 18%;
+}
+
+/* ---- GRAPHITE DARK -------------------------------------------------------- */
+[data-theme="graphite-dark"] {
+  --background: 222 16% 9%;
+  --foreground: 220 14% 90%;
+  --surface: 222 15% 12%;
+  --surface-foreground: 220 14% 90%;
+  --surface-muted: 222 14% 15%;
+  --muted: 222 12% 18%;
+  --muted-foreground: 220 9% 62%;
+  --border: 222 12% 21%;
+  --input: 222 12% 23%;
+  --ring: 199 80% 52%;
+  --primary: 210 16% 80%;
+  --primary-foreground: 222 24% 12%;
+  --primary-muted: 222 14% 20%;
+  --secondary: 220 10% 32%;
+  --secondary-foreground: 220 14% 90%;
+  --accent: 199 85% 52%;
+  --accent-foreground: 222 24% 10%;
+  --accent-muted: 199 50% 20%;
+  --success: 152 52% 46%;
+  --success-foreground: 222 24% 10%;
+  --success-muted: 152 40% 18%;
+  --warning: 38 92% 56%;
+  --warning-foreground: 36 60% 12%;
+  --warning-muted: 38 50% 20%;
+  --danger: 352 70% 58%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 40% 22%;
+  --info: 206 78% 58%;
+  --info-foreground: 222 24% 10%;
+  --info-muted: 206 40% 20%;
+  --sidebar: 222 18% 7%;
+  --sidebar-foreground: 220 12% 78%;
+  --sidebar-muted: 220 8% 54%;
+  --sidebar-border: 222 12% 16%;
+  --sidebar-active: 199 85% 52%;
+  --sidebar-active-bg: 222 14% 18%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 220 8% 48%;
+  --shadow-color: 0 0% 0%;
+}
+
+/* ---- EMERALD (jeweller green, light) -------------------------------------- */
+[data-theme="emerald"] {
+  --background: 160 20% 95%;
+  --foreground: 170 38% 10%;
+  --surface: 0 0% 100%;
+  --surface-foreground: 170 38% 10%;
+  --surface-muted: 160 24% 97%;
+  --muted: 160 18% 91%;
+  --muted-foreground: 165 12% 40%;
+  --border: 160 16% 84%;
+  --input: 160 16% 82%;
+  --ring: 162 64% 26%;
+  --primary: 163 70% 20%;
+  --primary-foreground: 0 0% 100%;
+  --primary-muted: 162 44% 90%;
+  --secondary: 165 24% 30%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 38 88% 46%;
+  --accent-foreground: 36 60% 12%;
+  --accent-muted: 40 90% 92%;
+  --success: 152 56% 32%;
+  --success-foreground: 0 0% 100%;
+  --success-muted: 152 50% 92%;
+  --warning: 36 92% 44%;
+  --warning-foreground: 36 60% 12%;
+  --warning-muted: 40 92% 92%;
+  --danger: 352 78% 42%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 80% 95%;
+  --info: 192 78% 36%;
+  --info-foreground: 0 0% 100%;
+  --info-muted: 192 70% 92%;
+  --sidebar: 168 44% 11%;
+  --sidebar-foreground: 160 20% 82%;
+  --sidebar-muted: 160 12% 58%;
+  --sidebar-border: 167 34% 18%;
+  --sidebar-active: 38 88% 52%;
+  --sidebar-active-bg: 165 40% 18%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 160 12% 50%;
+  --shadow-color: 170 38% 14%;
+}
+
+/* ---- EMERALD DARK --------------------------------------------------------- */
+[data-theme="emerald-dark"] {
+  --background: 170 30% 7%;
+  --foreground: 160 18% 90%;
+  --surface: 170 26% 10%;
+  --surface-foreground: 160 18% 90%;
+  --surface-muted: 170 22% 13%;
+  --muted: 170 18% 16%;
+  --muted-foreground: 160 10% 60%;
+  --border: 170 16% 19%;
+  --input: 170 16% 21%;
+  --ring: 38 88% 52%;
+  --primary: 160 50% 52%;
+  --primary-foreground: 170 38% 8%;
+  --primary-muted: 165 30% 18%;
+  --secondary: 165 16% 30%;
+  --secondary-foreground: 160 18% 90%;
+  --accent: 40 90% 54%;
+  --accent-foreground: 36 60% 10%;
+  --accent-muted: 40 50% 20%;
+  --success: 152 52% 46%;
+  --success-foreground: 170 38% 8%;
+  --success-muted: 152 40% 18%;
+  --warning: 38 92% 56%;
+  --warning-foreground: 36 60% 12%;
+  --warning-muted: 38 50% 20%;
+  --danger: 352 70% 58%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 40% 22%;
+  --info: 192 70% 50%;
+  --info-foreground: 170 38% 8%;
+  --info-muted: 192 40% 20%;
+  --sidebar: 170 36% 6%;
+  --sidebar-foreground: 160 16% 78%;
+  --sidebar-muted: 160 10% 54%;
+  --sidebar-border: 170 22% 14%;
+  --sidebar-active: 40 90% 54%;
+  --sidebar-active-bg: 167 30% 16%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 160 10% 48%;
+  --shadow-color: 0 0% 0%;
+}
+
+/* ---- PLUM (luxury purple, light) ------------------------------------------ */
+[data-theme="plum"] {
+  --background: 280 18% 95%;
+  --foreground: 277 36% 13%;
+  --surface: 0 0% 100%;
+  --surface-foreground: 277 36% 13%;
+  --surface-muted: 280 22% 97%;
+  --muted: 280 16% 92%;
+  --muted-foreground: 278 10% 42%;
+  --border: 280 14% 85%;
+  --input: 280 14% 83%;
+  --ring: 278 50% 38%;
+  --primary: 278 46% 32%;
+  --primary-foreground: 0 0% 100%;
+  --primary-muted: 280 40% 93%;
+  --secondary: 278 16% 32%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 41 86% 48%;
+  --accent-foreground: 36 60% 12%;
+  --accent-muted: 42 90% 92%;
+  --success: 152 56% 32%;
+  --success-foreground: 0 0% 100%;
+  --success-muted: 152 50% 92%;
+  --warning: 36 92% 44%;
+  --warning-foreground: 36 60% 12%;
+  --warning-muted: 40 92% 92%;
+  --danger: 352 78% 42%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 80% 95%;
+  --info: 206 78% 42%;
+  --info-foreground: 0 0% 100%;
+  --info-muted: 206 80% 94%;
+  --sidebar: 280 40% 14%;
+  --sidebar-foreground: 280 18% 84%;
+  --sidebar-muted: 280 12% 60%;
+  --sidebar-border: 279 30% 22%;
+  --sidebar-active: 41 86% 54%;
+  --sidebar-active-bg: 278 36% 24%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 280 12% 54%;
+  --shadow-color: 277 36% 16%;
+}
+
+/* ---- PLUM DARK ------------------------------------------------------------ */
+[data-theme="plum-dark"] {
+  --background: 278 28% 8%;
+  --foreground: 280 16% 90%;
+  --surface: 278 24% 11%;
+  --surface-foreground: 280 16% 90%;
+  --surface-muted: 278 20% 14%;
+  --muted: 278 16% 17%;
+  --muted-foreground: 280 10% 62%;
+  --border: 278 16% 21%;
+  --input: 278 16% 23%;
+  --ring: 41 86% 54%;
+  --primary: 280 56% 68%;
+  --primary-foreground: 277 36% 10%;
+  --primary-muted: 278 30% 20%;
+  --secondary: 278 14% 32%;
+  --secondary-foreground: 280 16% 90%;
+  --accent: 42 90% 56%;
+  --accent-foreground: 36 60% 10%;
+  --accent-muted: 42 50% 20%;
+  --success: 152 52% 46%;
+  --success-foreground: 277 36% 10%;
+  --success-muted: 152 40% 18%;
+  --warning: 38 92% 56%;
+  --warning-foreground: 36 60% 12%;
+  --warning-muted: 38 50% 20%;
+  --danger: 352 70% 58%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 40% 22%;
+  --info: 206 78% 58%;
+  --info-foreground: 277 36% 10%;
+  --info-muted: 206 40% 20%;
+  --sidebar: 278 34% 7%;
+  --sidebar-foreground: 280 14% 78%;
+  --sidebar-muted: 280 10% 56%;
+  --sidebar-border: 278 22% 15%;
+  --sidebar-active: 42 90% 56%;
+  --sidebar-active-bg: 278 30% 18%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 280 10% 50%;
+  --shadow-color: 0 0% 0%;
+}
+
+/* ---- HIGH CONTRAST (light) — WCAG AAA-leaning ------------------------------ */
+[data-theme="contrast-light"] {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --surface: 0 0% 100%;
+  --surface-foreground: 0 0% 0%;
+  --surface-muted: 0 0% 96%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 0 0% 20%;
+  --border: 0 0% 30%;
+  --input: 0 0% 20%;
+  --ring: 222 100% 40%;
+  --primary: 222 100% 32%;
+  --primary-foreground: 0 0% 100%;
+  --primary-muted: 222 60% 90%;
+  --secondary: 0 0% 18%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 24 100% 38%;
+  --accent-foreground: 0 0% 100%;
+  --accent-muted: 24 80% 90%;
+  --success: 152 100% 24%;
+  --success-foreground: 0 0% 100%;
+  --success-muted: 152 60% 88%;
+  --warning: 36 100% 36%;
+  --warning-foreground: 0 0% 100%;
+  --warning-muted: 40 90% 88%;
+  --danger: 352 100% 38%;
+  --danger-foreground: 0 0% 100%;
+  --danger-muted: 352 80% 92%;
+  --info: 206 100% 34%;
+  --info-foreground: 0 0% 100%;
+  --info-muted: 206 80% 90%;
+  --sidebar: 0 0% 8%;
+  --sidebar-foreground: 0 0% 96%;
+  --sidebar-muted: 0 0% 72%;
+  --sidebar-border: 0 0% 28%;
+  --sidebar-active: 24 100% 50%;
+  --sidebar-active-bg: 0 0% 18%;
+  --sidebar-active-foreground: 0 0% 100%;
+  --sidebar-section: 0 0% 66%;
+  --shadow-color: 0 0% 0%;
+}
+
+/* ---- HIGH CONTRAST (dark) ------------------------------------------------- */
+[data-theme="contrast-dark"] {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --surface: 0 0% 4%;
+  --surface-foreground: 0 0% 100%;
+  --surface-muted: 0 0% 9%;
+  --muted: 0 0% 14%;
+  --muted-foreground: 0 0% 82%;
+  --border: 0 0% 45%;
+  --input: 0 0% 50%;
+  --ring: 48 100% 55%;
+  --primary: 48 100% 55%;
+  --primary-foreground: 0 0% 0%;
+  --primary-muted: 48 40% 18%;
+  --secondary: 0 0% 80%;
+  --secondary-foreground: 0 0% 0%;
+  --accent: 199 100% 60%;
+  --accent-foreground: 0 0% 0%;
+  --accent-muted: 199 60% 18%;
+  --success: 152 80% 50%;
+  --success-foreground: 0 0% 0%;
+  --success-muted: 152 50% 16%;
+  --warning: 42 100% 56%;
+  --warning-foreground: 0 0% 0%;
+  --warning-muted: 42 60% 18%;
+  --danger: 352 90% 62%;
+  --danger-foreground: 0 0% 0%;
+  --danger-muted: 352 50% 20%;
+  --info: 199 100% 60%;
+  --info-foreground: 0 0% 0%;
+  --info-muted: 199 50% 18%;
+  --sidebar: 0 0% 0%;
+  --sidebar-foreground: 0 0% 96%;
+  --sidebar-muted: 0 0% 70%;
+  --sidebar-border: 0 0% 36%;
+  --sidebar-active: 48 100% 55%;
+  --sidebar-active-bg: 0 0% 14%;
+  --sidebar-active-foreground: 48 100% 55%;
+  --sidebar-section: 0 0% 64%;
+  --shadow-color: 0 0% 0%;
+}
+
+/* ============================================================================
+   DENSITY  (SRS L.1.1 — compact / comfortable / spacious)
+   Drives row heights, control heights and table padding via --row-h/--cell-py.
+   ========================================================================== */
+:root,
+[data-density="comfortable"] {
+  --row-h: 2.5rem;
+  --cell-py: 0.625rem;
+  --control-h: 2.25rem;
+  --space-unit: 1rem;
+}
+[data-density="compact"] {
+  --row-h: 2.125rem;
+  --cell-py: 0.375rem;
+  --control-h: 2rem;
+  --space-unit: 0.75rem;
+}
+[data-density="spacious"] {
+  --row-h: 3rem;
+  --cell-py: 0.875rem;
+  --control-h: 2.5rem;
+  --space-unit: 1.25rem;
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================== */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    font-feature-settings: "cv05" 1, "ss01" 1, "tnum" 1;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 14px;
+    letter-spacing: -0.006em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  /* Apple-style tightened tracking on headings */
+  h1, h2, h3, h4, .tracking-tight {
+    letter-spacing: -0.02em;
+  }
+  h1 { letter-spacing: -0.028em; }
+  /* Tabular figures for all numeric/financial data */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+  ::selection {
+    background: hsl(var(--accent) / 0.22);
+  }
+  /* Refined scrollbars */
+  ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.28);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.45);
+    background-clip: content-box;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-1 ring-offset-background;
+  }
+}
+
+@layer components {
+  /* Subtle dotted/grid backdrop used on auth + empty canvases */
+  .bg-grid {
+    background-image: radial-gradient(
+      hsl(var(--muted-foreground) / 0.12) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  /* ---- Glassmorphism (frosted translucent surfaces) ----------------------- */
+  .glass {
+    background: hsl(var(--surface) / 0.72);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+  .glass-strong {
+    background: hsl(var(--surface) / 0.82);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid hsl(var(--border) / 0.55);
+  }
+  .glass-panel {
+    background: linear-gradient(
+      160deg,
+      hsl(var(--surface) / 0.85),
+      hsl(var(--surface) / 0.62)
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid hsl(var(--surface) / 0.7);
+    box-shadow:
+      0 1px 0 0 hsl(0 0% 100% / 0.06) inset,
+      0 20px 40px -24px hsl(var(--shadow-color) / 0.45);
+  }
+  .hairline {
+    border-color: hsl(var(--border) / 0.55);
+  }
+
+  /* ---- Ambient aurora backdrop (gives glass something to refract) --------- */
+  .app-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+      radial-gradient(44rem 44rem at 8% -10%, hsl(var(--c-indigo) / 0.20), transparent 60%),
+      radial-gradient(40rem 40rem at 96% -2%, hsl(var(--c-amber) / 0.17), transparent 58%),
+      radial-gradient(50rem 50rem at 82% 100%, hsl(var(--c-cyan) / 0.16), transparent 60%),
+      radial-gradient(38rem 38rem at -2% 96%, hsl(var(--c-rose) / 0.13), transparent 60%),
+      radial-gradient(34rem 34rem at 45% 50%, hsl(var(--c-violet) / 0.07), transparent 65%);
+  }
+
+  .card-elevated {
+    @apply bg-surface border border-border rounded-2xl shadow-md;
+  }
+
+  /* Smooth hover-lift used on interactive cards / tiles */
+  .lift {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.2s ease;
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    @apply relative overflow-hidden bg-muted rounded-lg;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--surface) / 0.45),
+      transparent
+    );
+    transform: translateX(-100%);
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+/* Dark themes: glass leans on a darker translucent base */
+[data-theme$="-dark"] .glass,
+[data-theme="contrast-dark"] .glass {
+  background: hsl(var(--surface) / 0.6);
+}
+[data-theme$="-dark"] .glass-strong,
+[data-theme="contrast-dark"] .glass-strong {
+  background: hsl(var(--surface) / 0.7);
+}
+
+/* RTL niceties (UI-F08) — logical properties handle most mirroring */
+[dir="rtl"] .flip-rtl {
+  transform: scaleX(-1);
+}
