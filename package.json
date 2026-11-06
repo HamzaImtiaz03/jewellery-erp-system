@@ -2,11 +2,11 @@
   "name": "jewellery-erp",
   "version": "4.3.1",
   "private": true,
-  "description": "Multi-Vertical ERP Platform \u2014 Jewellery reference vertical. Enterprise SaaS frontend derived from SRS v4.3.1.",
+  "description": "Multi-Vertical ERP Platform — Jewellery reference vertical. Enterprise SaaS frontend derived from SRS v4.3.1.",
   "scripts": {
-    "dev": "node init && next dev",
-    "build": "node init && next build",
-    "start": "node init && next start",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },
